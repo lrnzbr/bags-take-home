@@ -8,7 +8,7 @@ This project was created to show a compact dashboard of a small business' perfor
 
 Instead of using a static .json file to read chart data. This app dynamically produces randomized chart data that the user can manipulate.
 
-The visuial data is on multiline + Bar chart that is zoomable on the x axis. Positive plain transactions are on a green line chart, negative transactions on a red line chart, with net profit/loss in blue bars.  All the data is aggregated into monthly buckets. 
+The visual data is on multiline + bar chart that is zoomable on the x axis. Positive plain transactions are on a green line chart, negative transactions on a red line chart, with net profit/loss in blue bars.  All the data is aggregated into monthly buckets. 
 
 The stying is very minimal. I decided to use big text and light gradients to create a component that could be easily adapted to the design language of a larger project. 
 
