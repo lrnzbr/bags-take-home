@@ -1,30 +1,26 @@
-/* eslint-disable guard-for-in */
-/* eslint-disable no-restricted-syntax */
-import { Merchant, Transaction } from './Model';
+import { Merchant, Transaction } from '../models/Model';
 
 const sampleMerchants = [
   new Merchant(100, 'Trader Joe\'s'),
   new Merchant(101, 'Walmart'),
   new Merchant(102, 'Office Max'),
   new Merchant(103, 'Home Depot'),
-  new Merchant(104, 'Kinkos'),
+  new Merchant(104, 'Kinkos')
 ];
 
-function randomDate(start, end, startHour, endHour) {
+function randomDate (start, end, startHour, endHour) {
   const date = new Date(+start + Math.random() * (end - start));
   const hour = startHour + Math.random() * (endHour - startHour);
   date.setHours(hour);
   return date;
 }
 
-async function generateSampleRevenueTransactions(numberOfTransactions) {
+async function generateTransactions (numberOfTransactions, minTxnAmt, maxTxnAmt, startDate, endDate) {
   const output = [];
   for (let i = 0; i < numberOfTransactions; i += 1) {
-    const precision = 100; // 2 decimals
-    const expenseAmount = Math.floor(Math.random() * (1000 * precision - 1 * precision)
-     + 1 * precision) / (1 * precision);
+    const expenseAmount = parseFloat((Math.random() * (maxTxnAmt - minTxnAmt) + minTxnAmt).toFixed(2));
     const merchant = sampleMerchants[Math.floor(Math.random() * sampleMerchants.length)];
-    const txnTimestamp = randomDate(new Date(2021, 0, 1), new Date(), 0, 23);
+    const txnTimestamp = randomDate(startDate, endDate, 0, 23);
     const newTransaction = new Transaction(i + 200, merchant, expenseAmount, txnTimestamp);
     output.push(newTransaction);
   }
@@ -32,29 +28,14 @@ async function generateSampleRevenueTransactions(numberOfTransactions) {
   return output;
 }
 
-async function generateSampleExpenseTransactions(numberOfTransactions) {
-  const output = [];
-  for (let i = 0; i < numberOfTransactions; i += 1) {
-    const precision = 100; // 2 decimals
-    const expenseAmount = Math.floor(Math.random() * (1000 * precision - 1 * precision)
-     + 1 * precision) / (-1 * precision);
-    const merchant = sampleMerchants[Math.floor(Math.random() * sampleMerchants.length)];
-    const txnTimestamp = randomDate(new Date(2021, 0, 1), new Date(), 0, 23);
-    const newTransaction = new Transaction(i + 200, merchant, expenseAmount, txnTimestamp);
-    output.push(newTransaction);
-  }
-
-  return output;
-}
-
-export async function generateSampleTransactions(income, expenses) {
-  const incomeTransactions = await generateSampleRevenueTransactions(income);
-  const expenseTransactions = await generateSampleExpenseTransactions(expenses);
+export async function generateSampleTransactions (numberOfRevenueTransactions, numberOfExpenseTransactions, minRevenueTxnAmt, minExpensesTxnAmt, maxRevenueTxnAmt, maxExpensesTxnAmt, revenueStartDate, expensesStartDate, revenueEndDate, expensesEndDate) {
+  const incomeTransactions = await generateTransactions(numberOfRevenueTransactions, minRevenueTxnAmt, maxRevenueTxnAmt, revenueStartDate, revenueEndDate);
+  const expenseTransactions = await generateTransactions(numberOfExpenseTransactions, minExpensesTxnAmt, maxExpensesTxnAmt, expensesStartDate, expensesEndDate);
   return incomeTransactions.concat(expenseTransactions)
     .sort((item1, item2) => item1.timestamp - item2.timestamp);
 }
 
-export async function aggregateMonthlyRevenue(transactions) {
+export async function aggregateMonthlyRevenue (transactions) {
   const outputDict = {};
   for (const i in transactions) {
     const txn = transactions[i];
@@ -74,20 +55,20 @@ export async function aggregateMonthlyRevenue(transactions) {
   for (const i in outputDict) {
     const month = outputDict[i];
     const startingTotal = 0;
-    const total = month.reduce((accumulator, currentValue) => accumulator
-     + currentValue.price, startingTotal);
+    const total = month.reduce((accumulator, currentValue) => accumulator +
+     currentValue.price, startingTotal);
 
     const dataPoint = {
       date: month[0].timestamp,
-      value: total,
+      value: total
     };
     outputArray.push(dataPoint);
   }
-
+  console.log('Aggregates: ', outputArray);
   return outputArray.sort((item1, item2) => item1.timestamp - item2.timestamp);
 }
 
-export async function aggregateMonthlyExpenses(transactions) {
+export async function aggregateMonthlyExpenses (transactions) {
   const outputDict = {};
   for (const i in transactions) {
     const txn = transactions[i];
@@ -107,12 +88,12 @@ export async function aggregateMonthlyExpenses(transactions) {
   for (const i in outputDict) {
     const month = outputDict[i];
     const startingTotal = 0;
-    const total = month.reduce((accumulator, currentValue) => accumulator
-     + currentValue.price, startingTotal);
+    const total = month.reduce((accumulator, currentValue) => accumulator +
+     currentValue.price, startingTotal);
 
     const dataPoint = {
       date: month[0].timestamp,
-      value: total,
+      value: total
     };
     outputArray.push(dataPoint);
   }
@@ -120,7 +101,7 @@ export async function aggregateMonthlyExpenses(transactions) {
   return outputArray.sort((item1, item2) => item1.timestamp - item2.timestamp);
 }
 
-export function getMonthYearName(timestamp) {
+export function getMonthYearName (timestamp) {
   const formatter = new Intl.DateTimeFormat('en', { month: 'short' });
   const month = formatter.format(timestamp);
   const year = timestamp.getFullYear();
@@ -159,14 +140,11 @@ export const calculateSD = (values) => {
   return Math.sqrt(variance);
 };
 
-export function calculateMedian(values) {
+export function calculateMedian (values) {
   if (values.length === 0) {
-    throw new Error('Input array is empty');
+    return 0;
   }
 
-  // Sorting values, preventing original array
-  // from being mutated.
-  // eslint-disable-next-line no-param-reassign
   values = [...values].sort((a, b) => a - b);
 
   const half = Math.floor(values.length / 2);
@@ -177,7 +155,7 @@ export function calculateMedian(values) {
   );
 }
 
-export function currencyFormat(num) {
+export function currencyFormat (num) {
   if (num == null) {
     return '$0.00';
   }

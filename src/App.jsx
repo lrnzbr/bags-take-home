@@ -1,23 +1,32 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
 import RevenueChart from './components/RevenueChart';
-import { generateSampleTransactions } from './Models/Functions';
+import { generateSampleTransactions } from './utilities/Functions';
 import IncomeStability from './components/IncomeStability';
+import AdjustInputs from './components/AdjustInputs';
 
-function App() {
+function App () {
   const [allTransactions, setAllTransactions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    async function makeFakeTransactions() {
+    async function makeFakeTransactions () {
       // Make 1000 Fake Transactions
       setIsLoading(true);
-      const txns = await generateSampleTransactions(1000, 450);
+      const txns = await generateSampleTransactions(500, 500, 10.0, -100.00, 400.00, -400.00, new Date('2020-01-01'), new Date('2020-01-01'), new Date(), new Date());
       setAllTransactions(txns);
       setIsLoading(false);
     }
     makeFakeTransactions();
+    console.log('ALL TRANSACTIONS', allTransactions);
   }, []);
+
+  async function regenerateTransactions (numberOfRevenueTransactions, numberOfExpenseTransactions, minRevenueTxnAmt, minExpensesTxnAmt, maxRevenueTxnAmt, maxExpensesTxnAmt, revenueStartDate, expensesStartDate, revenueEndDate, expensesEndDate) {
+    setIsLoading(true);
+    const txns = await generateSampleTransactions(numberOfRevenueTransactions, numberOfExpenseTransactions, minRevenueTxnAmt, minExpensesTxnAmt, maxRevenueTxnAmt, maxExpensesTxnAmt, new Date(revenueStartDate), new Date(expensesStartDate), new Date(revenueEndDate), new Date(expensesEndDate));
+    setAllTransactions(txns);
+    setIsLoading(false);
+  }
 
   if (isLoading === true) {
     return (<h1>Loading..</h1>);
@@ -30,6 +39,7 @@ function App() {
       </div>
       <RevenueChart allTransactions={allTransactions} />
       <IncomeStability allTransactions={allTransactions} />
+      <AdjustInputs regenerateTransations = {regenerateTransactions}/>
 
     </div>
   );

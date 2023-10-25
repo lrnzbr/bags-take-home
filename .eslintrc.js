@@ -1,21 +1,31 @@
 module.exports = {
   env: {
     browser: true,
-    es2021: true,
+    es2021: true
   },
   extends: [
-    'plugin:react/recommended',
-    'airbnb',
+    'standard',
+    'plugin:react/recommended'
+  ],
+  overrides: [
+    {
+      env: {
+        node: true
+      },
+      files: [
+        '.eslintrc.{js,cjs}'
+      ],
+      parserOptions: {
+        sourceType: 'script'
+      }
+    }
   ],
   parserOptions: {
-    ecmaFeatures: {
-      jsx: true,
-    },
-    ecmaVersion: 12,
-    sourceType: 'module',
+    ecmaVersion: 'latest',
+    sourceType: 'module'
   },
   plugins: [
-    'react',
+    'react'
   ],
   rules: {
     quotes: ['error', 'single'],
@@ -24,6 +34,6 @@ module.exports = {
     // we use 2 spaces to indent our code
     indent: ['error', 2],
     // we want to avoid extraneous spaces
-    'no-multi-spaces': ['error'],
-  },
+    'no-multi-spaces': ['error']
+  }
 };

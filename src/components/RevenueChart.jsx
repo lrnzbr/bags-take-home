@@ -1,14 +1,15 @@
+/* eslint-disable react/prop-types */
 import React, { useEffect, useState, useRef } from 'react';
 import { Chart as ChartJS } from 'chart.js/auto';
 import { Chart } from 'react-chartjs-2';
 import zoomPlugin from 'chartjs-plugin-zoom';
 import {
-  aggregateMonthlyRevenue, aggregateMonthlyExpenses, getMonthYearName, netDifference,
-} from '../Models/Functions';
+  aggregateMonthlyRevenue, aggregateMonthlyExpenses, getMonthYearName, netDifference
+} from '../utilities/Functions';
 
 ChartJS.register(zoomPlugin);
 
-export default function RevenueChart({ allTransactions }) {
+export default function RevenueChart ({ allTransactions }) {
   const [revenue, setRevenue] = useState([]);
   const [expenses, setExpenses] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -21,7 +22,7 @@ export default function RevenueChart({ allTransactions }) {
   };
 
   useEffect(() => {
-    async function prepareRevenueData() {
+    async function prepareRevenueData () {
       setIsLoading(true);
       const aggregate = await aggregateMonthlyRevenue(allTransactions);
       setRevenue(aggregate);
@@ -31,7 +32,7 @@ export default function RevenueChart({ allTransactions }) {
   }, [allTransactions]);
 
   useEffect(() => {
-    async function prepareExpensesData() {
+    async function prepareExpensesData () {
       setIsLoading(true);
       const aggregate = await aggregateMonthlyExpenses(allTransactions);
       setExpenses(aggregate);
@@ -47,7 +48,9 @@ export default function RevenueChart({ allTransactions }) {
   return (
     <div className="chart-container">
       <h1>Revenue vs. Expenses </h1>
-      <button className="reset-button" onClick={handleResetZoom}>Reset Zoom</button>
+      <div className='button-container'>
+        <button className="reset-button" onClick={handleResetZoom}>Reset Zoom</button>
+      </div>
       <Chart
         ref={chartRef}
         className="chart-inner-container"
@@ -62,7 +65,7 @@ export default function RevenueChart({ allTransactions }) {
               borderWidth: 2,
               backgroundColor: 'green',
               borderColor: 'green',
-              responsive: true,
+              responsive: true
             },
             {
               type: 'line',
@@ -72,7 +75,7 @@ export default function RevenueChart({ allTransactions }) {
               borderWidth: 2,
               backgroundColor: 'red',
               borderColor: 'red',
-              responsive: true,
+              responsive: true
             },
             {
               type: 'bar',
@@ -80,30 +83,30 @@ export default function RevenueChart({ allTransactions }) {
               // y-axis data plotting values
               data: netDifference(
                 revenue.flatMap((item) => item.value),
-                expenses.flatMap((item) => item.value),
+                expenses.flatMap((item) => item.value)
               ),
               fill: false,
               borderWidth: 2,
               backgroundColor: 'blue',
               borderColor: 'blue',
-              responsive: true,
-            },
-          ],
+              responsive: true
+            }
+          ]
         }}
         options={{
           plugins: {
             zoom: {
               zoom: {
                 wheel: {
-                  enabled: true,
+                  enabled: true
                 },
                 pinch: {
-                  enabled: true,
+                  enabled: true
                 },
-                mode: 'x',
-              },
-            },
-          },
+                mode: 'x'
+              }
+            }
+          }
         }}
       />
 

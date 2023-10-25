@@ -4,10 +4,10 @@ import {
   currencyFormat, calculateMean,
   calculateVariance, netDifference,
   calculateSD, aggregateMonthlyExpenses,
-  aggregateMonthlyRevenue, calculateMedian,
-} from '../Models/Functions';
+  aggregateMonthlyRevenue, calculateMedian
+} from '../utilities/Functions';
 
-export default function IncomeStability({ allTransactions }) {
+export default function IncomeStability ({ allTransactions }) {
   const [revenue, setRevenue] = useState([]);
   const [expenses, setExpenses] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -17,7 +17,7 @@ export default function IncomeStability({ allTransactions }) {
   const [standardDev, setStandardDev] = useState(0);
 
   useEffect(() => {
-    async function prepareRevenueData() {
+    async function prepareRevenueData () {
       setIsLoading(true);
       const aggregate = await aggregateMonthlyRevenue(allTransactions);
       setRevenue(aggregate);
@@ -27,7 +27,7 @@ export default function IncomeStability({ allTransactions }) {
   }, [allTransactions]);
 
   useEffect(() => {
-    async function prepareExpensesData() {
+    async function prepareExpensesData () {
       setIsLoading(true);
       const aggregate = await aggregateMonthlyExpenses(allTransactions);
       setExpenses(aggregate);
@@ -37,10 +37,10 @@ export default function IncomeStability({ allTransactions }) {
   }, [allTransactions]);
 
   useEffect(() => {
-    async function setMetrics() {
+    async function setMetrics () {
       const netVals = netDifference(
         revenue.flatMap((item) => item.value),
-        expenses.flatMap((item) => item.value),
+        expenses.flatMap((item) => item.value)
       );
       setMean(calculateMean(netVals));
       setMedian(calculateMedian(netVals));
@@ -58,16 +58,16 @@ export default function IncomeStability({ allTransactions }) {
     <div className="chart-container">
       <h1>How steady is my cash flow? </h1>
       <h2>Average Monthly Profit Margin</h2>
-      <p><b>{currencyFormat(mean)}</b></p>
+      {mean < 0 ? <p className = "negative-value"><b>{currencyFormat(mean)}</b></p> : <p className = "positive-value" ><b>{currencyFormat(mean)}</b></p> }
 
       <h2>Variance of Profit / Loss</h2>
       <p><b>{variance}</b></p>
 
       <h2>Standard Deviation of Profit / Loss</h2>
-      <p><b>{currencyFormat(standardDev)}</b></p>
+      <p><b>±{currencyFormat(standardDev)}</b></p>
 
       <h2>Median Profit / Loss</h2>
-      <p><b>{currencyFormat(median)}</b></p>
+      {median < 0 ? <p className = "negative-value"><b>{currencyFormat(median)}</b></p> : <p className = "positive-value" ><b>{currencyFormat(median)}</b></p> }
 
       <p><i>What does this mean?</i></p>
       <p>
