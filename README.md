@@ -1,5 +1,7 @@
 # Fresh Threads Textiles
-## A Small Business Health Dashboard 
+<img width="1262" alt="image" src="https://github.com/lrnzbr/bags-take-home/assets/2145274/a06a5686-b3f9-49f4-9f4b-49303d042707">
+
+A Small Business Health Dashboard 
 
 ## Overview
 This project was created to show a compact dashboard of a small business' performance utilizing mock data resembling that of a Plaid connection.
