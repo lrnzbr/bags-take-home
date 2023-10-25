@@ -24,7 +24,6 @@ async function generateTransactions (numberOfTransactions, minTxnAmt, maxTxnAmt,
     const newTransaction = new Transaction(i + 200, merchant, expenseAmount, txnTimestamp);
     output.push(newTransaction);
   }
-
   return output;
 }
 
@@ -39,6 +38,7 @@ export async function aggregateMonthlyRevenue (transactions) {
   const outputDict = {};
   for (const i in transactions) {
     const txn = transactions[i];
+
     if (txn.price > 0.00) {
       const month = txn.timestamp.getMonth();
       const year = txn.timestamp.getYear() + 1900;
@@ -64,7 +64,6 @@ export async function aggregateMonthlyRevenue (transactions) {
     };
     outputArray.push(dataPoint);
   }
-  console.log('Aggregates: ', outputArray);
   return outputArray.sort((item1, item2) => item1.timestamp - item2.timestamp);
 }
 

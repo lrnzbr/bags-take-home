@@ -18,7 +18,6 @@ function App () {
       setIsLoading(false);
     }
     makeFakeTransactions();
-    console.log('ALL TRANSACTIONS', allTransactions);
   }, []);
 
   async function regenerateTransactions (numberOfRevenueTransactions, numberOfExpenseTransactions, minRevenueTxnAmt, minExpensesTxnAmt, maxRevenueTxnAmt, maxExpensesTxnAmt, revenueStartDate, expensesStartDate, revenueEndDate, expensesEndDate) {

@@ -1,8 +1,7 @@
 /* eslint-disable max-classes-per-file */
-// generate random dates
 
 export class Transaction {
-  constructo (transactionID, merchant, price, timestamp) {
+  constructor (transactionID, merchant, price, timestamp) {
     this.transactionID = transactionID;
     this.merchant = merchant;
     this.price = price;
