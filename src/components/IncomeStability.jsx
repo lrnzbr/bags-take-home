@@ -61,7 +61,7 @@ export default function IncomeStability ({ allTransactions }) {
       {mean < 0 ? <p className = "negative-value"><b>{currencyFormat(mean)}</b></p> : <p className = "positive-value" ><b>{currencyFormat(mean)}</b></p> }
 
       <h2>Variance of Profit / Loss</h2>
-      <p><b>{variance}</b></p>
+      <p><b>{variance.toFixed(2)}</b></p>
 
       <h2>Standard Deviation of Profit / Loss</h2>
       <p><b>±{currencyFormat(standardDev)}</b></p>
