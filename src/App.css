@@ -1,6 +1,6 @@
 body {
     font-family: sans-serif;
-    background-color: rgb(255, 255, 255);
+    background: -webkit-linear-gradient(#d2d6fd, #FFFFFF);
   }
   .App {
     display: inline-block;
@@ -12,10 +12,22 @@ body {
   .checkbox {
     margin: 10px;
   }
-  .header {
+  .header h1{
+    font-size: 2.5em;
+    background: -webkit-linear-gradient(#45a, #16004a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  
     text-align: center;
   }
+  .header h2{
+    font-size: 1.8em;
+    background: -webkit-linear-gradient(#45a, #16004a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   
+    text-align: center;
+  }
   .chart-container {
     border: 1px solid black;
     border-radius: 1em;
