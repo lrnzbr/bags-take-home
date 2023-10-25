@@ -2,7 +2,7 @@
 // generate random dates
 
 export class Transaction {
-  constructor(transactionID, merchant, price, timestamp) {
+  constructo (transactionID, merchant, price, timestamp) {
     this.transactionID = transactionID;
     this.merchant = merchant;
     this.price = price;
@@ -11,7 +11,7 @@ export class Transaction {
 }
 
 export class Account {
-  constructor(accountName, transactionHistory, accountType) {
+  constructor (accountName, transactionHistory, accountType) {
     this.accountName = accountName;
     this.transactionHistory = transactionHistory;
     this.accountType = accountType;
@@ -19,7 +19,7 @@ export class Account {
 }
 
 export class Merchant {
-  constructor(merchantID, merchantName) {
+  constructor (merchantID, merchantName) {
     this.merchantID = merchantID;
     this.merchantName = merchantName;
   }
