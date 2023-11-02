@@ -51,65 +51,66 @@ export default function RevenueChart ({ allTransactions }) {
       <div className='button-container'>
         <button className="reset-button" onClick={handleResetZoom}>Reset Zoom</button>
       </div>
-      <Chart
-        ref={chartRef}
-        className="chart-inner-container"
-        data={{
-          labels: revenue.flatMap((item) => getMonthYearName(item.date)),
-          datasets: [
-            {
-              type: 'line',
-              label: 'Income',
-              data: revenue.flatMap((item) => item.value),
-              fill: false,
-              borderWidth: 2,
-              backgroundColor: 'green',
-              borderColor: 'green',
-              responsive: true
-            },
-            {
-              type: 'line',
-              label: 'Expenses',
-              data: expenses.flatMap((item) => item.value),
-              fill: false,
-              borderWidth: 2,
-              backgroundColor: 'red',
-              borderColor: 'red',
-              responsive: true
-            },
-            {
-              type: 'bar',
-              label: 'Net Profit/Loss',
-              // y-axis data plotting values
-              data: netDifference(
-                revenue.flatMap((item) => item.value),
-                expenses.flatMap((item) => item.value)
-              ),
-              fill: false,
-              borderWidth: 2,
-              backgroundColor: 'blue',
-              borderColor: 'blue',
-              responsive: true
-            }
-          ]
-        }}
-        options={{
-          plugins: {
-            zoom: {
+      <div>
+        <Chart
+          ref={chartRef}
+          className="chart-inner-container"
+          data={{
+            labels: revenue.flatMap((item) => getMonthYearName(item.date)),
+            datasets: [
+              {
+                type: 'line',
+                label: 'Income',
+                data: revenue.flatMap((item) => item.value),
+                fill: false,
+                borderWidth: 2,
+                backgroundColor: 'green',
+                borderColor: 'green',
+                responsive: true
+              },
+              {
+                type: 'line',
+                label: 'Expenses',
+                data: expenses.flatMap((item) => item.value),
+                fill: false,
+                borderWidth: 2,
+                backgroundColor: 'red',
+                borderColor: 'red',
+                responsive: true
+              },
+              {
+                type: 'bar',
+                label: 'Net Profit/Loss',
+                // y-axis data plotting values
+                data: netDifference(
+                  revenue.flatMap((item) => item.value),
+                  expenses.flatMap((item) => item.value)
+                ),
+                fill: false,
+                borderWidth: 2,
+                backgroundColor: 'blue',
+                borderColor: 'blue',
+                responsive: true
+              }
+            ]
+          }}
+          options={{
+            plugins: {
               zoom: {
-                wheel: {
-                  enabled: true
-                },
-                pinch: {
-                  enabled: true
-                },
-                mode: 'x'
+                zoom: {
+                  wheel: {
+                    enabled: true
+                  },
+                  pinch: {
+                    enabled: true
+                  },
+                  mode: 'xy'
+                }
               }
             }
-          }
-        }}
-      />
-
+          }}
+        />
+      </div>
     </div>
   );
 }
